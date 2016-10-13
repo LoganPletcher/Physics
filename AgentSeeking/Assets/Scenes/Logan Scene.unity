@@ -191,7 +191,7 @@ GameObject:
   - 114: {fileID: 604651570}
   - 114: {fileID: 604651569}
   m_Layer: 0
-  m_Name: LPBoid
+  m_Name: Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -222,16 +222,13 @@ MonoBehaviour:
   targetTrans: {fileID: 668712552}
   V: {x: 0, y: 0, z: 0}
   cV: {x: 0, y: 0, z: 0}
-  sM: 0.05
+  sM: 1
   avM: 0
   mass: 10
   speed: 1
   radius: 5
   ArrStr: 0
-  aM: 0
-  r: 0
-  g: 0
-  b: 0
+  aM: 1
   baseColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!23 &604651571
 MeshRenderer:
