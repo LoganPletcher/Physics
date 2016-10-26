@@ -25,19 +25,24 @@ namespace Logan
         {
             Vector3 dV = (targetTrans.position - transform.position);   //Desired Velocity
             Vector3 seeking = (dV.normalized - V.normalized) * sM;
-            Vector3 avoid = (transform.position - targetTrans.position) * avM;
+            Vector3 avoid = (transform.position - targetTrans.position).normalized * avM;
             if (dV.magnitude <= radius)
+            {
                 ArrStr = dV.magnitude / radius;
+            }
             else
+            {
                 ArrStr = 0;
-            Vector3 arrival = (transform.position.normalized - targetTrans.position.normalized) * ArrStr;
+            }
+            Vector3 arrival = (transform.position - targetTrans.position).normalized * ArrStr * aM;
             Vector3 steering = seeking + avoid + arrival;
-            if (cV.magnitude > 5)   //Manual clamp(?)
-                cV = cV.normalized;
-            cV += steering;
-            transform.position += (cV / mass) * speed;
+            if (V.magnitude > 5)
+            {
+                V = V.normalized;
+            }
+            V = V.normalized + steering;
+            transform.position += (V / mass) * speed;
 
-            //These two lines of code change the colors of the parent Gameobject based on the magnitude of the Desired Velocity
             baseColor = new Color(1 - dV.magnitude * .1F, 0 + dV.magnitude * .1F, 0);
             this.GetComponent<Renderer>().material.SetColor("_EmissionColor", baseColor);
         }

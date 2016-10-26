@@ -90,11 +90,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d179da3567c3594aad34f96e967d00c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sphere: {fileID: 1000011296084564}
-  Target: {fileID: 0}
-  currentVelocity: {x: 0, y: 0, z: 0}
-  SteeringMag: 1
-  Mass: 30
 --- !u!114 &114000012033230564
 MonoBehaviour:
   m_ObjectHideFlags: 1

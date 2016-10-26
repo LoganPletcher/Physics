@@ -4,8 +4,6 @@ namespace Logan
 {
     public class Agent
     {
-
-
         public struct Vector3
         {
             public float x, y, z;
