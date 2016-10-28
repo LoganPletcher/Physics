@@ -9,7 +9,7 @@ namespace Logan
         public Transform Predator;
         public Vector3 wind;
         [Range(0, 2)]
-        public float c, d, a, t, l, p;
+        public float c, s, a, t, l, p;
         [Range(-100,100)]
         public int Xmin, Xmax, Ymin, Ymax, Zmin, Zmax;
         public List<Boid> Boids;
@@ -25,7 +25,7 @@ namespace Logan
             change_all_boids_position();
         }
 
-        Vector3 Rule1(Boid bj)
+        Vector3 Rule1(Boid bj)  //Cohesion
         {
             Vector3 pc = new Vector3();
             foreach (Boid b in Boids)
@@ -36,10 +36,10 @@ namespace Logan
                 }
             }
             pc = pc / (Boids.Count - 1);
-            return ((pc - bj.Position) / 100).normalized;
+            return ((pc - bj.Position) / 100);
         }
 
-        Vector3 Rule2(Boid bj)
+        Vector3 Rule2(Boid bj)  //Separation
         {
             Vector3 c = new Vector3(0,0,0);
             foreach (Boid b in Boids)
@@ -48,13 +48,13 @@ namespace Logan
                 {
                     if (Mathf.Abs((b.Position - bj.Position).magnitude) < 10)
                     {
-                        c = (c - (b.Position - bj.Position)).normalized;
+                        c = (c - (b.Position - bj.Position));
                     }
                 }
             }
             return c;
         }
-        Vector3 Rule3(Boid bj)
+        Vector3 Rule3(Boid bj)  //Alignment
         {
             Vector3 pv = bj.Velocity.normalized;
             foreach(Boid b in Boids)
@@ -66,7 +66,7 @@ namespace Logan
             }
             pv = pv / (Boids.Count - 1);
 
-            return ((pv - bj.Velocity) / 8).normalized;
+            return ((pv - bj.Velocity) / 8);
         }
 
         Vector3 Tendency(Boid bj)
@@ -79,7 +79,7 @@ namespace Logan
         {
             if (b.Velocity.magnitude > l)
             {
-                b.Velocity = (b.Velocity / Mathf.Abs(b.Velocity.magnitude) * l).normalized;
+                b.Velocity = (b.Velocity / Mathf.Abs(b.Velocity.magnitude) * l);
             }
         }
 
@@ -120,7 +120,7 @@ namespace Logan
         {
             if(Mathf.Abs((Predator.position - b.Position).magnitude) < 100)
             {
-                return -((Predator.position - b.Position) / 20).normalized;
+                return -((Predator.position - b.Position) / 20);
             }
             return Vector3.zero;
         }
@@ -131,13 +131,13 @@ namespace Logan
             foreach (Boid B in Boids)
             {
                 v1 = Rule1(B) * c;
-                v2 = Rule2(B) * d;
+                v2 = Rule2(B) * s;
                 v3 = Rule3(B) * a;
                 v4 = Tendency(B) * t;
                 v5 = bound_position(B);
                 v6 = AvoidPredator(B) * p;
                 
-                B.Velocity = (B.Velocity + v1 + v2 + v3 + v4 + v5 + v6 + wind) * Time.deltaTime;
+                B.Velocity = (B.Velocity + v1 + v2 + v3 + v4 + v5 + v6 + wind);
                 limit_Velocity(B);
                 B.Position = B.Velocity + B.Position;
             }
