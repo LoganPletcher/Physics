@@ -293,11 +293,11 @@ MonoBehaviour:
   Predator: {fileID: 1145314218}
   wind: {x: 0, y: 0, z: 0}
   c: 1
-  d: 1
+  s: 1
   a: 1
   t: 1
   l: 1
-  p: 1
+  p: 0
   Xmin: -100
   Xmax: 100
   Ymin: -100
@@ -327,7 +327,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000012934589528, guid: 2d9421e5071b9df42a444bd5950d5f5b, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -9.22
       objectReference: {fileID: 0}
     - target: {fileID: 4000012934589528, guid: 2d9421e5071b9df42a444bd5950d5f5b, type: 2}
       propertyPath: m_LocalRotation.x

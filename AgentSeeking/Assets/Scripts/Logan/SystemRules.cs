@@ -137,8 +137,8 @@ namespace Logan
                 v5 = bound_position(B);
                 v6 = AvoidPredator(B) * p;
                 
-                B.Velocity = (B.Velocity + v1 + v2 + v3 + v4 + v5 + v6 + wind);
-                limit_Velocity(B);
+                B.Velocity = (B.Velocity + v1 + v2 + v3 + v5/* + v4 + v5 + v6 + wind*/);
+                //limit_Velocity(B);
                 B.Position = B.Velocity + B.Position;
             }
         }
