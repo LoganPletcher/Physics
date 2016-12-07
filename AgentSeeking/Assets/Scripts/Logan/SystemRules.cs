@@ -8,7 +8,7 @@ namespace Logan
     {
         public Transform Predator;
         public Vector3 wind;
-        [Range(0, 2)]
+        [Range(0, 10)]
         public float c, s, a, t, l, p;
         [Range(-100,100)]
         public int Xmin, Xmax, Ymin, Ymax, Zmin, Zmax;
@@ -25,7 +25,7 @@ namespace Logan
             change_all_boids_position();
         }
 
-        Vector3 Rule1(Boid bj)  //Cohesion
+        Vector3 Cohesion(Boid bj)  //Cohesion
         {
             Vector3 pc = new Vector3();
             foreach (Boid b in Boids)
@@ -36,10 +36,10 @@ namespace Logan
                 }
             }
             pc = pc / (Boids.Count - 1);
-            return ((pc - bj.Position) / 100);
+            return ((pc - bj.Position).normalized);
         }
 
-        Vector3 Rule2(Boid bj)  //Separation
+        Vector3 Dispersion(Boid bj)  //Separation
         {
             Vector3 c = new Vector3(0,0,0);
             foreach (Boid b in Boids)
@@ -52,9 +52,9 @@ namespace Logan
                     }
                 }
             }
-            return c;
+            return c.normalized;
         }
-        Vector3 Rule3(Boid bj)  //Alignment
+        Vector3 Alignment(Boid bj)  //Alignment
         {
             Vector3 pv = bj.Velocity.normalized;
             foreach(Boid b in Boids)
@@ -66,7 +66,7 @@ namespace Logan
             }
             pv = pv / (Boids.Count - 1);
 
-            return ((pv - bj.Velocity) / 8);
+            return ((pv - bj.Velocity).normalized / 8);
         }
 
         Vector3 Tendency(Boid bj)
@@ -130,15 +130,15 @@ namespace Logan
             Vector3 v1, v2, v3, v4, v5, v6;
             foreach (Boid B in Boids)
             {
-                v1 = Rule1(B) * c;
-                v2 = Rule2(B) * s;
-                v3 = Rule3(B) * a;
+                v1 = Cohesion(B) * c;
+                v2 = Dispersion(B) * s;
+                v3 = Alignment(B) * a;
                 v4 = Tendency(B) * t;
                 v5 = bound_position(B);
-                v6 = AvoidPredator(B) * p;
+                //v6 = AvoidPredator(B) * p;
                 
-                B.Velocity = (B.Velocity + v1 + v2 + v3 + v5/* + v4 + v5 + v6 + wind*/);
-                //limit_Velocity(B);
+                B.Velocity = (B.Velocity + v1 + v2 + v3 + v4 + v5 /* + v6 + wind*/);
+                limit_Velocity(B);
                 B.Position = B.Velocity + B.Position;
             }
         }

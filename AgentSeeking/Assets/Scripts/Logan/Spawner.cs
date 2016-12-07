@@ -54,7 +54,7 @@ namespace Logan
                     boid.GetComponent<Boid>().Velocity = boid.transform.forward;
                 }
             }
-            GetComponent<SystemRules>().Boids = PopulateBoidList();
+            GetComponent<NewSystemRules>().Boids = PopulateBoidList();
         }
 
         // Update is called once per frame

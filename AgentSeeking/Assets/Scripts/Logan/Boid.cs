@@ -15,7 +15,7 @@ namespace Logan
         // Update is called once per frame
         void Update()
         {
-            transform.forward = Velocity;
+            transform.up = Velocity;
             transform.position = Position;
         }
     }
