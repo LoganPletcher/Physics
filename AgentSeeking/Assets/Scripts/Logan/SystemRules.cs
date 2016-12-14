@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 
 namespace Logan
@@ -36,17 +37,17 @@ namespace Logan
                 }
             }
             pc = pc / (Boids.Count - 1);
-            return ((pc - bj.Position).normalized);
+            return ((pc - bj.Position) / 1000) * c;
         }
 
-        Vector3 Dispersion(Boid bj)  //Separation
+        Vector3 Alignment(Boid bj)  //Alignment
         {
             Vector3 c = new Vector3(0,0,0);
             foreach (Boid b in Boids)
             {
                 if (b != bj)
                 {
-                    if (Mathf.Abs((b.Position - bj.Position).magnitude) < 10)
+                    if (Mathf.Abs((b.Position - bj.Position).magnitude) < a)
                     {
                         c = (c - (b.Position - bj.Position));
                     }
@@ -54,7 +55,7 @@ namespace Logan
             }
             return c.normalized;
         }
-        Vector3 Alignment(Boid bj)  //Alignment
+        Vector3 Dispersion(Boid bj)  //Separation
         {
             Vector3 pv = bj.Velocity.normalized;
             foreach(Boid b in Boids)
@@ -66,7 +67,7 @@ namespace Logan
             }
             pv = pv / (Boids.Count - 1);
 
-            return ((pv - bj.Velocity).normalized / 8);
+            return ((pv - bj.Velocity) / 8) * s;
         }
 
         Vector3 Tendency(Boid bj)
@@ -127,20 +128,41 @@ namespace Logan
 
         void change_all_boids_position()
         {
-            Vector3 v1, v2, v3, v4, v5, v6;
+            Vector3 v1, v2, v3, v4, v5;
             foreach (Boid B in Boids)
             {
-                v1 = Cohesion(B) * c;
-                v2 = Dispersion(B) * s;
-                v3 = Alignment(B) * a;
+                v1 = Cohesion(B);
+                v2 = Dispersion(B);
+                v3 = Alignment(B);
                 v4 = Tendency(B) * t;
                 v5 = bound_position(B);
-                //v6 = AvoidPredator(B) * p;
                 
-                B.Velocity = (B.Velocity + v1 + v2 + v3 + v4 + v5 /* + v6 + wind*/);
+                B.Velocity = (B.Velocity + v1 + v2 + v3 + v4 + v5);
                 limit_Velocity(B);
                 B.Position = B.Velocity + B.Position;
             }
+        }
+
+        public void ChangeC(Slider CSlider)
+        {
+            c = CSlider.value;
+            CSlider.GetComponentInChildren<Text>().text = "Cohesiveness: " + c;
+        }
+
+        public void ChangeS(Slider SSlider)
+        {
+            s = SSlider.value;
+            SSlider.GetComponentInChildren<Text>().text = "Seperation: " + s;
+        }
+        public void ChangeA(Slider ASlider)
+        {
+            a = ASlider.value;
+            ASlider.GetComponentInChildren<Text>().text = a + " :Alignment";
+        }
+        public void ChangeT(Slider TSlider)
+        {
+            t = TSlider.value;
+            TSlider.GetComponentInChildren<Text>().text = t + " :Tendency";
         }
     }
 }
