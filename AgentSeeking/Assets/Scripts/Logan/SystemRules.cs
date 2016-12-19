@@ -40,22 +40,22 @@ namespace Logan
             return ((pc - bj.Position) / 1000) * c;
         }
 
-        Vector3 Alignment(Boid bj)  //Alignment
+        Vector3 Dispersion(Boid bj)  //Separation
         {
             Vector3 c = new Vector3(0,0,0);
             foreach (Boid b in Boids)
             {
                 if (b != bj)
                 {
-                    if (Mathf.Abs((b.Position - bj.Position).magnitude) < a)
+                    if (Mathf.Abs((b.Position - bj.Position).magnitude) < s)
                     {
                         c = (c - (b.Position - bj.Position));
                     }
                 }
             }
-            return c.normalized;
+            return c;
         }
-        Vector3 Dispersion(Boid bj)  //Separation
+        Vector3 Alignment(Boid bj)  //Alignment
         {
             Vector3 pv = bj.Velocity.normalized;
             foreach(Boid b in Boids)
@@ -67,7 +67,7 @@ namespace Logan
             }
             pv = pv / (Boids.Count - 1);
 
-            return ((pv - bj.Velocity) / 8) * s;
+            return ((pv - bj.Velocity) / 8) * a;
         }
 
         Vector3 Tendency(Boid bj)
@@ -80,7 +80,7 @@ namespace Logan
         {
             if (b.Velocity.magnitude > l)
             {
-                b.Velocity = (b.Velocity / Mathf.Abs(b.Velocity.magnitude) * l);
+                b.Velocity = ((b.Velocity / b.Velocity.magnitude) * l);
             }
         }
 
